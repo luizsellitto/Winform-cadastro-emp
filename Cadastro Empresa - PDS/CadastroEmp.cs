@@ -34,52 +34,77 @@ namespace Cadastro_Empresa___PDS
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string cnpj = maskedTextBox1.Text;
-            string razao = textBox1.Text;
-            string nfant = textBox2.Text;
-            string situacao = comboBox1.Text;
-            string regime;
-            string datadeInicio = dateTimePicker1.Text;
-            string telefone = maskedTextBox2.Text;
-            double capital = Double.Parse(textBox3.Text);
-            string estado = comboBox2.Text;
-            string cidade = textBox4.Text;
-            string bairro = textBox5.Text;
-            string rua = textBox6.Text;
-            double numero = Double.Parse(textBox7.Text);
-            string tipo;
-            string porte;
-            string natureza = comboBox3.Text;
-            string nomeProp = textBox8.Text;
-            string cpfProp = textBox9.Text;
-            if (radioButton1.Checked == true)
+            try
             {
-                regime = "Simples Nacional";
-            }
-            else if (radioButton2.Checked == true) { regime = "Lucro Presumido"; }
-            else if (radioButton3.Checked == true) { regime = "Lucro Real"; }
-            else { regime = "";}
+                double capital;
+                double numero;
+                string cnpj = maskedTextBox1.Text;
+                string razao = textBox1.Text;
+                string nfant = textBox2.Text;
+                string situacao = comboBox1.Text;
+                string regime;
+                string datadeInicio = dateTimePicker1.Text;
+                string telefone = maskedTextBox2.Text;
+                if (string.IsNullOrEmpty(textBox3.Text))
+                {
+                    capital = 0;
+                }
+                else
+                {
+                    capital = Double.Parse(textBox3.Text);
+                }
 
-            if (radioButton6.Checked == true) { tipo = "Matriz"; }
-            else if (radioButton4.Checked == true) { tipo = "Filial"; }
-            else
+                string estado = comboBox2.Text;
+                string cidade = textBox4.Text;
+                string bairro = textBox5.Text;
+                string rua = textBox6.Text;
+                if (string.IsNullOrEmpty(textBox7.Text))
+                {
+                    numero = 0;
+                }
+                else
+                {
+                    numero = Double.Parse(textBox7.Text);
+                }
+
+                string tipo;
+                string porte;
+                string natureza = comboBox3.Text;
+                string nomeProp = textBox8.Text;
+                string cpfProp = textBox9.Text;
+                if (radioButton1.Checked == true)
+                {
+                    regime = "Simples Nacional";
+                }
+                else if (radioButton2.Checked == true) { regime = "Lucro Presumido"; }
+                else if (radioButton3.Checked == true) { regime = "Lucro Real"; }
+                else { regime = ""; }
+
+                if (radioButton6.Checked == true) { tipo = "Matriz"; }
+                else if (radioButton4.Checked == true) { tipo = "Filial"; }
+                else
+                {
+                    tipo = "";
+                }
+
+                if (radioButton7.Checked == true) { porte = "Pequeno"; }
+                else if (radioButton5.Checked == true) { porte = "Médio"; }
+                else if (radioButton8.Checked == true) { porte = "Grande"; }
+                else
+                {
+                    porte = "";
+                }
+
+                Empresa p = new Empresa(cnpj, razao, nfant, situacao, regime, datadeInicio, telefone, capital, estado, cidade, bairro, rua, numero, tipo, porte, natureza, nomeProp, cpfProp);
+                emps.Add(p);
+                Form1 menu = new Form1(emps);
+                this.Hide();
+                menu.ShowDialog();
+            }
+            catch (Exception ex)
             {
-                tipo = "";
+                MessageBox.Show(ex.Message);
             }
-
-            if (radioButton7.Checked == true) { porte = "Pequeno"; }
-            else if (radioButton5.Checked == true) { porte = "Médio"; }
-            else if (radioButton8.Checked == true) { porte = "Grande"; }
-            else
-            {
-                porte = "";
-            }
-
-            Empresa p = new Empresa(cnpj, razao, nfant, situacao, regime, datadeInicio, telefone, capital, estado, cidade, bairro, rua, numero, tipo, porte, natureza, nomeProp, cpfProp);
-            emps.Add(p);
-            Form1 menu = new Form1(emps);
-            this.Hide();
-            menu.ShowDialog();
         }
     }
 }
